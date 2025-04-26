@@ -217,3 +217,174 @@ const product1:Product = {
     qty: 53,
     price: 10
 };
+
+
+
+// =========================== ДИНАМІЧНА ТИПІЗАЦІЯ ===========================
+// ДИНАМІЧНИЙ ТИП ЗАСТОСОВУЄМО КОЛИ НЕЗНАЄМО СКІЛЬКИ БУДЕ КЛЮЧІВ ТА З ЯКИМИ НАЗВАМИ І ЗНАЧЕННЯМИ АЛЕ ТИПИ ДАННИХ У НИХ БУДУТЬ ОДНАКОВІ
+
+// type FrontEnd = {
+//   murkUp: string
+//   programming: string
+//   frameWorks: string
+// } дубляж однакової схеми
+
+// const frontEnd: FrontEnd = {
+//   murkUp: 'html css',
+//   programming: 'javaScript',
+//   frameWorks: 'React Ecspress Node.js',
+// }
+
+// type Pyton = {
+//   frontEnd: string
+//   beckEnd: string
+// } дубляж однакової схеми
+
+// const pyton: Pyton = {
+//   frontEnd: 'web-programing, flask and jango',
+//   beckEnd: 'data-siense, mashine-learnig',
+// }
+
+// type Design = {
+//   webDesign: string
+//   grafickDesign: string
+//   motionDesign: string
+// } дубляж однакової схеми
+
+// const design: Design = {
+//   webDesign: 'figma, UX /UI',
+//   grafickDesign: 'photoShop, illustrator, lightRoom ',
+//   motionDesign: 'afterEffects, premier',
+// }
+
+// ми створили під кожен курс свою типізацію і бачимо, що типи повторюються, тому ми можемо обєднати всі типи в один шаблон як динамічну типізацію
+
+type Course = {
+    [key: string]: string
+}
+
+const frontEnd: Course = {
+  murkUp: 'html css',
+  programming: 'javaScript',
+  frameWorks: 'React Ecspress Node.js',
+}
+const pyton: Course = {
+  frontEnd: 'web-programing, flask and jango',
+  beckEnd: 'data-siense, mashine-learnig',
+}
+const design: Course = {
+  webDesign: 'figma, UX /UI',
+  grafickDesign: 'photoShop, illustrator, lightRoom ',
+  motionDesign: 'afterEffects, premier',
+}
+
+
+
+// Динамічна типізація розкладу уроків
+
+type Les = {
+    [key: string]: string | number,
+
+}
+
+const math: Les = {
+    lesNameMath: "math",
+    lesTimeMath: 45,
+    lesClassMath: 103
+}
+
+const english: Les = {
+    lesNameEng: "english",
+    lesTimeeng: 45,
+    
+}
+
+
+
+// створити тип для об'єкта де ключ є рядок а значення або рядок, або число створити декілька об'єктів такого типу
+
+type Picture = {
+    [key: string]: string | number,
+}
+
+const pixelArtArtist: Picture = {
+    style: "pixel art",
+    paintingTime: 45,
+    nameArtist: "Josh",
+    price: 105,
+    paintingName: "ah-one"
+}
+
+const paintingBuyer: Picture = {
+    wallet: 2500,
+    nameBuyer: "Oleg",
+    paintingName: "ah-one"
+}
+
+
+const platformBay: Picture = {
+    buyer: "Oleg",
+    seller: "Josh",
+    buyingPainting: "ah-one",
+    pricePainting: 105
+}
+
+
+// -----------GENERIC-----------
+
+// Дженеріки забезпучують типізацію функції чи класу, але не прив'язуються до аргументів які прийдуть у функцію/клас
+// Дженерік це змінна, тобто динамічний тип даних. Для дженерік використовуємо <>
+// function showInfo(msg: string): string{
+//     return `Передане повідомлення: ${msg}`
+// }
+
+// const output: string = showInfo('Hi');
+
+// console.log(output); // в даній функції ми маємо преедавати завжди рядок
+
+// нижче ми хочем зробити типізацію динамічною
+
+function showInfo<M,N>(msg1: M, msg2: N): string{ // динамічно підставляємо тип у дженерік <M>
+    return `Передане повідомлення: ${msg1}, ${msg2}`
+}
+
+const output1: string = showInfo<string,string>('Hi','g');
+const output2: string = showInfo<number,string>(4892,'k');
+
+console.log(output1, output2);
+
+// створимо функцію яка буде приймати масив будь якого типу
+// додає до кожного елемента масива step та вертає оновлений масив
+function arrPlusStep<N extends number[],S extends number>(arr: N,step: S): number[]{
+    return arr.map(item => {
+        return item + step
+    })
+}
+
+const res1 = arrPlusStep<number[],number>([1, 2, 3], 5);
+// const res2 = arrPlusStep<string[], string>(['a', 'b', 'c'], ' d');
+console.log(res1);
+
+// extends - це свого роду як первірка замість if, таким чином ми робимо додаткову валідацію аргументів
+// якщо переданий аргумент буде відповідати умові extends то тоді цей аргумент буде вважатися валідним
+
+const savedPasswords = '12345';
+
+function checkUser<U extends {
+    login: string,
+    password: number | string,
+}>(user: U, ): string {
+    if (savedPasswords === user.password){
+        return `Ви автирозовані!\nLOGIN: ${user.login}\nPASSWORD: ${user.password}`;
+    }
+    return `Ви не автирозовані!`
+}
+
+console.log(checkUser({
+    login: "Name",
+    password: "12345"
+}));
+console.log(checkUser({
+    login: "Name",
+    password: 12345
+}));
