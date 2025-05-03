@@ -180,3 +180,121 @@ console.log(checkUser({
     login: "Name",
     password: 12345
 }));
+// Написати функццію яка приймає два числа і додає їх(калькулятор)
+const inputNumberOne = document.querySelector(".numberOne");
+const inputNumberTwo = document.querySelector(".numberTwo");
+const buttonElementSum = document.querySelector(".buttonSum");
+const buttonElementDifference = document.querySelector(".buttonDifference");
+const buttonElementMultiplier = document.querySelector(".buttonMultiplier");
+const buttonElementDivision = document.querySelector(".buttonDivision");
+function calculatorFunctionSum(num1, num2) {
+    const sum = num1 + num2;
+    console.log(sum);
+}
+;
+function calculatorFunctionDifference(num1, num2) {
+    const sum = num1 - num2;
+    console.log(sum);
+}
+;
+function calculatorFunctionMultiplier(num1, num2) {
+    const sum = num1 * num2;
+    console.log(sum);
+}
+;
+function calculatorFunctionDivision(num1, num2) {
+    const sum = num1 / num2;
+    console.log(sum);
+}
+;
+buttonElementSum.addEventListener("click", () => {
+    calculatorFunctionSum(Number(inputNumberOne.value), Number(inputNumberTwo.value));
+});
+buttonElementDifference.addEventListener("click", () => {
+    calculatorFunctionDifference(Number(inputNumberOne.value), Number(inputNumberTwo.value));
+});
+buttonElementMultiplier.addEventListener("click", () => {
+    calculatorFunctionMultiplier(Number(inputNumberOne.value), Number(inputNumberTwo.value));
+});
+buttonElementDivision.addEventListener("click", () => {
+    calculatorFunctionDivision(Number(inputNumberOne.value), Number(inputNumberTwo.value));
+});
+// Напиши скрипт пошуку логіна
+//  - Якщо логіна немає, вивести повідомлення 'Користувач [логін] не знайдено.'
+//  - Якщо знайшли логін, вивести повідомлення 'Користувач [логін] знайдено.'
+const inputForm = document.querySelector('.inputLogin');
+const btnSubmit = document.querySelector('.buttonSubmitForm');
+const formSent = document.querySelector('.formLogin');
+const logins = ['Stepan', '123123', 'qqwwpro'];
+formSent.addEventListener('submit', (e) => {
+    e.preventDefault();
+    // console.log(typeof inputForm.value)
+    // console.log(logins.find((elem) => elem === inputForm.value))
+    // logins.filter((elem) => elem === inputForm.value)
+    if (logins.find((elem) => elem === inputForm.value)) {
+        alert('логін знайдено');
+    }
+    else {
+        alert('логін не знайдено');
+    }
+    // logins.map((data) => {
+    // //     if (inputForm.value === data) {
+    // //         alert("w")
+    // //     } else {
+    // //         alert("wawda")
+    // //     }
+    // //     console.log(data)
+    // })
+});
+// ? Напишіть функцію, яка отримує масив об'єктів і повертає масив імен з тих об'єктів,
+// ? які мають вік більше 18 років.
+const users = [
+    {
+        firstName: 'Semen',
+        lastName: 'Antipyuk',
+        age: 15
+    }, {
+        firstName: 'Michael',
+        lastName: 'Ivanov',
+        age: 15
+    }, {
+        firstName: 'Mykita',
+        lastName: 'Pupkin',
+        age: 20,
+    }, {
+        firstName: 'Ivan',
+        lastName: 'Llalala',
+        age: 22,
+    }
+];
+const ageFilter = (users) => {
+    const filtredNamesUsers = users.filter(user => user.age >= 18).map(user => user.firstName);
+    return filtredNamesUsers;
+};
+console.log(ageFilter(users));
+// Зробити статистику всіх тегів. Назву тега потрібно зробити ключем,
+//  значення якого буде кількістьповторень тегів в масиві. Якщо властивість з ключем tag є,
+//  збільшуємо його значення на 1 якщо властивості немає с таким ключем що в tag, створити і записати 1
+const statsEl = document.querySelector('.stats');
+const tweets = [
+    { id: '000', likes: 5, tags: ['js', 'nodejs'] },
+    { id: '001', likes: 2, tags: ['html', 'css'] },
+    { id: '002', likes: 17, tags: ['html', 'js', 'nodejs'] },
+    { id: '003', likes: 8, tags: ['css', 'react'] },
+    { id: '004', likes: 0, tags: ['js', 'nodejs', 'react'] },
+];
+let stats = {};
+tweets.forEach((tweet) => {
+    tweet.tags.forEach((tag) => {
+        if (tag in stats) {
+            stats[tag] = stats[tag] + 1;
+        }
+        else {
+            stats[tag] = 1;
+        }
+    });
+});
+console.log(stats);
+Object.keys(stats).forEach((stat) => {
+    statsEl.innerHTML += `${stat} - ${stats[stat]}<br>`;
+});
